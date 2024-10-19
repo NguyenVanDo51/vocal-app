@@ -1,0 +1,25 @@
+{
+    "kind": "collectionType",
+    "collectionName": "words",
+    "info": {
+        "singularName": "word",
+        "pluralName": "words",
+        "displayName": "word"
+    },
+    "options": {
+        "draftAndPublish": true
+    },
+    "pluginOptions": {},
+    "attributes": {
+        "terminology": {
+            "type": "string",
+            "required": true,
+            "maxLength": 255
+        },
+        "meaning": {
+            "type": "string",
+            "required": true,
+            "maxLength": 255
+        }
+    }
+}

@@ -4,7 +4,7 @@ docker run --name vocal-postgres -v vocaldb:/data/db -e POSTGRES_PASSWORD="g&r*6
 
 `psql -U postgres`
 
-`create database vocalstripe`
+`create database vocalstripe;`
 
 `\q`
 
