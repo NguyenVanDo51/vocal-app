@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>English Learning App</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-r from-green-200 via-yellow-200 to-blue-200 min-h-screen flex flex-col items-center">
+  
+  <!-- Header -->
+  <header class="w-full bg-green-500 p-6 text-white text-center text-3xl font-bold">
+    English Learning App
+  </header>
+
+  <!-- Main Content -->
+  <main class="container mx-auto p-6 flex-1">
+    <!-- Tạo mới Button -->
+    <div class="flex justify-end mb-6">
+      <button class="bg-blue-500 text-white py-3 px-6 rounded-full shadow-lg hover:bg-blue-600 transition duration-300 font-bold">
+        + Tạo mới
+      </button>
+    </div>
+
+    <!-- Danh sách bộ từ -->
+    <section>
+      <h2 class="text-2xl font-bold text-center text-green-700 mb-6">Danh sách các bộ từ của bạn</h2>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Bộ từ 1 -->
+        <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition duration-300">
+          <h3 class="text-xl font-bold text-green-600 mb-2">Bộ từ vựng: Động vật</h3>
+          <p class="text-gray-600 mb-4">Số từ: 20</p>
+          <button class="bg-yellow-500 text-white py-2 px-4 rounded-full hover:bg-yellow-600 transition duration-300">
+            Học ngay
+          </button>
+        </div>
+
+        <!-- Bộ từ 2 -->
+        <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition duration-300">
+          <h3 class="text-xl font-bold text-green-600 mb-2">Bộ từ vựng: Nhà bếp</h3>
+          <p class="text-gray-600 mb-4">Số từ: 15</p>
+          <button class="bg-yellow-500 text-white py-2 px-4 rounded-full hover:bg-yellow-600 transition duration-300">
+            Học ngay
+          </button>
+        </div>
+
+        <!-- Bộ từ 3 -->
+        <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition duration-300">
+          <h3 class="text-xl font-bold text-green-600 mb-2">Bộ từ vựng: Thời tiết</h3>
+          <p class="text-gray-600 mb-4">Số từ: 12</p>
+          <button class="bg-yellow-500 text-white py-2 px-4 rounded-full hover:bg-yellow-600 transition duration-300">
+            Học ngay
+          </button>
+        </div>
+
+        <!-- Thêm các bộ từ khác tương tự -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="w-full bg-green-500 p-4 text-white text-center">
+    © 2024 English Learning App
+  </footer>
+
+</body>
+</html>
