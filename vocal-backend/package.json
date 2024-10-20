@@ -6,6 +6,8 @@
   "scripts": {
     "build": "strapi build",
     "start:pm2": "NODE_ENV=production pm2 start server.js --name api",
+    "build:win": "cross-env NODE_ENV=production npm run build",
+    "start:win": "cross-env NODE_ENV=production npm start",
     "develop": "strapi develop",
     "seed:example": "node ./scripts/seed.js",
     "start": "strapi start",
@@ -15,6 +17,7 @@
     "@strapi/plugin-cloud": "5.1.0",
     "@strapi/plugin-users-permissions": "5.1.0",
     "@strapi/strapi": "5.1.0",
+    "cross-env": "^7.0.3",
     "fs-extra": "^10.0.0",
     "mime-types": "^2.1.27",
     "pg": "8.8.0",
