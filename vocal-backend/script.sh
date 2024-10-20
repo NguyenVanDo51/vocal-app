@@ -6,14 +6,10 @@ git pull origin main
 chmod +x script.sh
 
 echo ">> build docker image"
-docker build -t vocal:v1 .
+npm install --production
 
 echo ">> stop current image"
-docker stop vocal
+NODE_ENV=production npm run build
 
 echo ">> delete current image"
-docker rm vocal
-
-docker run -p 3016:3016 --net host -d   --name vocal --restart always vocal:v1
-
-docker logs vocal
+npm run start:pm2

@@ -1,2 +1,4 @@
-const strapi = require('@strapi/strapi');
-strapi.createStrapi(/* {...} */).start();
+const strapi = require('@strapi/strapi')
+console.log('process.env', process.env)
+
+strapi.createStrapi({distDir: './dist'}).start()

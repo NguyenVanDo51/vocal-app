@@ -5,7 +5,7 @@
   "description": "A Strapi application",
   "scripts": {
     "build": "strapi build",
-    "start:pm2": "NODE_ENV=production pm2 start server.js --name api",
+    "start:pm2": "cross-env NODE_ENV=production pm2 start server.js --name api",
     "build:win": "cross-env NODE_ENV=production npm run build",
     "start:win": "cross-env NODE_ENV=production npm start",
     "develop": "strapi develop",
