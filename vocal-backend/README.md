@@ -9,3 +9,18 @@ docker run --name vocal-postgres -v vocaldb:/data/db -e POSTGRES_PASSWORD="g&r*6
 `\q`
 
 `exit`
+
+
+## deploy
+
+```bash
+npm install --production
+```
+
+```bash
+NODE_ENV=production npm run build
+```
+
+```bash
+npm run start:pm2
+```
