@@ -544,6 +544,10 @@ export interface ApiCollectionCollection extends Struct.CollectionTypeSchema {
       }>;
     description: Schema.Attribute.Text;
     unit: Schema.Attribute.Relation<'manyToOne', 'api::unit.unit'>;
+    words: Schema.Attribute.Relation<'oneToMany', 'api::word.word'>;
+    type: Schema.Attribute.Enumeration<['default', 'private', 'public']> &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<'default'>;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;
@@ -633,6 +637,7 @@ export interface ApiWordWord extends Struct.CollectionTypeSchema {
     singularName: 'word';
     pluralName: 'words';
     displayName: 'word';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -648,6 +653,10 @@ export interface ApiWordWord extends Struct.CollectionTypeSchema {
       Schema.Attribute.SetMinMaxLength<{
         maxLength: 255;
       }>;
+    collection: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::collection.collection'
+    >;
     createdAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     publishedAt: Schema.Attribute.DateTime;

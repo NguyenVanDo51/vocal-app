@@ -4,7 +4,8 @@
   "info": {
     "singularName": "word",
     "pluralName": "words",
-    "displayName": "word"
+    "displayName": "word",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -20,6 +21,12 @@
       "type": "string",
       "required": true,
       "maxLength": 255
+    },
+    "collection": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::collection.collection",
+      "inversedBy": "words"
     }
   }
 }

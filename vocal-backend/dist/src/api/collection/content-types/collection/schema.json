@@ -26,6 +26,22 @@
             "relation": "manyToOne",
             "target": "api::unit.unit",
             "inversedBy": "collections"
+        },
+        "words": {
+            "type": "relation",
+            "relation": "oneToMany",
+            "target": "api::word.word",
+            "mappedBy": "collection"
+        },
+        "type": {
+            "type": "enumeration",
+            "enum": [
+                "default",
+                "private",
+                "public"
+            ],
+            "default": "default",
+            "required": true
         }
     }
 }
