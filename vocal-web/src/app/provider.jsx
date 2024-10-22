@@ -1,6 +1,7 @@
 'use client'
 import { QueryClientProvider } from '@tanstack/react-query'
 import React from 'react'
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 import {
   QueryClient,
@@ -45,8 +46,10 @@ export default function Providers({ children }) {
   const queryClient = getQueryClient()
 
   return (
-    <QueryClientProvider client={queryClient}>
-      {children}
-    </QueryClientProvider>
+    <GoogleOAuthProvider clientId='978956465129-ddkb0c0bujbmfehcoi8l71kvbed4j14m.apps.googleusercontent.com'>
+      <QueryClientProvider client={queryClient}>
+        {children}
+      </QueryClientProvider>
+    </GoogleOAuthProvider>
   )
 }

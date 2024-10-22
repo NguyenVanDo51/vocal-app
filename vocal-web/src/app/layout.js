@@ -3,6 +3,7 @@ import './globals.css'
 import { ClerkProvider, SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 import Providers from './provider'
 import Link from 'next/link'
+import { Header } from '@/components/app/Header'
 
 const feather = localFont({
   src: './fonts/FeatherBold.woff',
@@ -16,26 +17,14 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <ClerkProvider>
-      <html lang="en">
-        <body className={`${feather.variable} antialiased`}>
-          <Providers>
-            <header className='flex justify-between items-center py-2 px-4'>
-              <Link href='/' className='text-xl font-bold'>LOGO</Link>
-              <div>
-                <SignedOut>
-                  <SignInButton />
-                </SignedOut>
-                <SignedIn>
-                  <UserButton />
-                </SignedIn>
-              </div>
-            </header>
+    <html lang="en">
+      <body className={`${feather.variable} antialiased`}>
+        <Providers>
+          <Header />
 
-            <main>{children}</main>
-          </Providers>
-        </body>
-      </html>
-    </ClerkProvider>
+          <main>{children}</main>
+        </Providers>
+      </body>
+    </html>
   )
 }
