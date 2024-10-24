@@ -5,7 +5,7 @@ const db = require('../../database')
 exports.getCollections = async (req, res) => {
   const { userId } = req.params
   try {
-    const result = await db.query('SELECT * FROM collections WHERE user_id = $1', [userId])
+    const result = await db.query('SELECT * FROM collections WHERE user_id = $1 ORDER BY created_at DESC', [userId])
     res.json(
       result.rows.map((collection) => ({ ...collection, words: JSON.parse(collection.words) }))
     )

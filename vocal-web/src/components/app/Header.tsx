@@ -4,23 +4,32 @@ import { useProfile } from '@/hooks/useProfile'
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 import Link from 'next/link'
 import { Button } from '../ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import { deleteCookie } from '@/lib/utils'
 
 export const Header = () => {
   const { profile } = useProfile()
   return (
     <header className="flex justify-between items-center py-2 px-4">
-      <Link href="/" className="text-xl font-bold">
-        LOGO
+      <Link href="/app" className="text-xl font-bold uppercase">
+        Vocal
       </Link>
 
       <div className="flex items-center gap-6">
-        <Link href="/collections/create">
-          <Button >
-            Tạo mới
+        <Link href="/app/collections/create">
+          <Button className="min-w-[unset]" size="lg">
+            Create
           </Button>
         </Link>
 
-        <span className='cursor-pointer'>
+        <span className="cursor-pointer">
           <svg
             width="24"
             height="24"
@@ -35,10 +44,26 @@ export const Header = () => {
           </svg>
         </span>
 
-        <Avatar>
-          <AvatarImage src={profile?.avatar} />
-          <AvatarFallback>{profile?.name.charAt(0)}</AvatarFallback>
-        </Avatar>
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <Avatar>
+              <AvatarImage src={profile?.avatar} />
+              <AvatarFallback>{profile?.name.charAt(0)}</AvatarFallback>
+            </Avatar>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>{profile?.name}</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              onClick={() => {
+                deleteCookie('jwt')
+                window.location.href = '/'
+              }}
+            >
+              Logout
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </header>
   )
