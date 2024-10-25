@@ -14,10 +14,10 @@ const inter = Roboto({
 })
 
 export const metadata = {
-  title: "Vocal - Learn English Easily",
+  title: "Vocazia - Learn English Easily",
   description:
-    "Vocal is an interactive platform to learn English by creating and sharing custom vocabulary lists.",
-  keywords: "learn English, vocabulary, language learning, Vocal, Duolingo alternative",
+    "Vocazia is an interactive platform to learn English by creating and sharing custom vocabulary lists.",
+  keywords: "learn English, vocabulary, language learning, Vocazia, Duolingo alternative",
   authors: ["Your Name"],
 };
 

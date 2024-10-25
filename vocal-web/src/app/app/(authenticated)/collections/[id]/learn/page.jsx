@@ -1,4 +1,3 @@
-import axios from "axios"
 import LearnCollection from "./components/LearnCollection"
 import { httpClient } from "@/services/httpClient"
 

@@ -9,22 +9,21 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: `bg-primary text-white shadow-md inline-flex items-center justify-center py-2 cursor-pointer`,
-
+        default: `bg-primary hover:shadow-lg text-white shadow-md inline-flex items-center justify-center py-2 cursor-pointer first-letter:uppercase`,
         destructive: 'bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90',
         outline:
           'border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground',
-        secondary: 'bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80',
+        secondary: `inline-flex items-center justify-center py-2 cursor-pointer border-[2px] bg-primary/10 border-primary text-primary`,
         ghost: 'hover:bg-accent hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
-        doulingo: `inline-flex items-center 
-                  justify-center min-w-[200px] py-2 cursor-pointer border-[2px] border-b-[4px]
+        doulingo: `inline-flex items-center !rounded-2xl
+                  justify-center md:min-w-[200px] py-2 cursor-pointer border-[2px] border-b-[4px]
                   active:shadow-none active:border-b-[2px] active:translate-y-[2px] first-letter:uppercase`,
       },
       size: {
-        default: 'rounded-xl h-14 px-4 py-2 text-lg',
-        sm: 'h-8 rounded-md px-3 text-xs',
-        lg: 'h-10 rounded-xl px-8',
+        default: 'rounded-md h-14 px-8 py-2 text-lg',
+        sm: 'h-9 rounded-md px-3',
+        lg: 'h-10 rounded-md px-8',
         icon: 'h-9 w-9',
       },
       status: {

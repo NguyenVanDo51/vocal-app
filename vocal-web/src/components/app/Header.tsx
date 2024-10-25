@@ -19,8 +19,14 @@ export const Header = () => {
   return (
     <header className="flex justify-between items-center py-2 px-4">
       <Link href="/app" className="text-xl font-bold uppercase">
-        Vocal
+        Vocazia
       </Link>
+
+      <div className="flex items-center gap-6">
+        <Link href="/app/community" className='hover:text-primary'>
+          <span className="cursor-pointer">Community</span>
+        </Link>
+      </div>
 
       <div className="flex items-center gap-6">
         <Link href="/app/collections/create">

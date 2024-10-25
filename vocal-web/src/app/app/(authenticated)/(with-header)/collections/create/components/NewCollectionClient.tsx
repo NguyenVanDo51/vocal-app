@@ -5,12 +5,16 @@ import { Button } from '@/components/ui/button'
 import React, { useEffect, useState } from 'react'
 import { httpClient } from '@/services/httpClient'
 import { useRouter } from 'next/navigation'
+import { Avatar } from 'antd'
+import { Plus, Trash } from 'lucide-react'
+import { SelectImageModal } from '@/components/app/SelectImageModal'
 
 const NewCollectionClient = ({ collectionId }) => {
   const [collectionName, setCollectionName] = useState<string>()
   const [words, setWords] = useState([
     { word: '', meaning: '', image: '', pronunciation: '', example: '' },
   ])
+  const [currentIndexToChangeImage, setCurrentIndexToChangeImage] = useState(undefined)
 
   const router = useRouter()
 
@@ -24,15 +28,21 @@ const NewCollectionClient = ({ collectionId }) => {
     setWords(newWords)
   }
 
+  const handleDelete = (index) => {
+    const newWords = [...words]
+    newWords.splice(index, 1)
+    setWords(newWords)
+  }
+
   const onFinish = () => {
     if (!collectionName) {
-      alert('Vui lòng nhập tên tập')
+      alert('Please enter the collection name')
       return
     }
 
     ;(words || []).forEach((word) => {
       if (!word.word || !word.meaning) {
-        alert('Vui lòng nhập đủ thông tin từ mới')
+        alert('Please enter the word and meaning')
         return
       }
     })
@@ -72,42 +82,95 @@ const NewCollectionClient = ({ collectionId }) => {
       />
 
       {words.map((word, index) => (
-        <div key={index} className="flex gap-3">
+        <div
+          key={index}
+          className="flex flex-col md:flex-row gap-3 items-center bg-black/5 p-3 rounded-md"
+        >
+          <span className="hidden md:inline">{index + 1}</span>
+
           <Input
+            className="border-black/20"
             type="text"
             placeholder="Segment"
             value={word.word}
             onChange={(e) => handleChange(index, 'word', e.target.value)}
           />
           <Input
+            className="border-black/20"
             type="text"
             placeholder="Meaning"
             value={word.meaning}
             onChange={(e) => handleChange(index, 'meaning', e.target.value)}
           />
+
           <Input
-            type="text"
-            placeholder="Image (URL)"
-            value={word.image}
-            onChange={(e) => handleChange(index, 'image', e.target.value)}
-          />
-          <Input
+            className="border-black/20"
             type="text"
             placeholder="Example"
             value={word.example}
             onChange={(e) => handleChange(index, 'example', e.target.value)}
           />
+          <div className="flex flex-row gap-2 items-center justify-between w-full md:w-auto">
+            {word.image ? (
+              <div className="relative">
+                <span
+                  className="absolute top-1 right-1 cursor-pointer z-10 bg-white/10 p-0.5 rounded"
+                  onClick={() => handleChange(index, 'image', '')}
+                >
+                  <Trash className="text-red-500" size={20} />
+                </span>
+
+                <Avatar
+                  src={word.image}
+                  alt=""
+                  size={'large'}
+                  className="min-w-16 min-h-16"
+                  shape="square"
+                />
+              </div>
+            ) : (
+              <button
+                className="border border-dashed border-black/20 hover:border-primary hover:text-primary rounded-md p-2 cursor-pointer flex-col inline-flex justify-center min-w-16 h-16 text-sm items-center"
+                type="button"
+                onClick={() => setCurrentIndexToChangeImage(index)}
+              >
+                <Plus />
+                <div style={{ marginTop: 8 }}>Image</div>
+              </button>
+            )}
+
+            <span className="cursor-pointer p-1" onClick={() => handleDelete(index)}>
+              <Trash size={18} className="text-red-500" />
+            </span>
+          </div>
         </div>
       ))}
-      <Button variant="doulingo" size="lg" onClick={addNewWord}>
-        + Thêm từ mới
-      </Button>
+      <button
+        className="border border-dashed hover:border-primary hover:text-primary border-black/20 rounded-md p-2 cursor-pointer flex-col inline-flex justify-center min-w-16 text-sm items-center"
+        onClick={addNewWord}
+      >
+        + Add new word
+      </button>
 
       <div className="flex gap-4 justify-end">
-        <Button variant="doulingo" status="primary" onClick={onFinish}>
+        <Button variant="secondary" size="lg" onClick={() => router.push('/app')}>
+          Cancel
+        </Button>
+
+        <Button size="lg" onClick={onFinish}>
           Save
         </Button>
       </div>
+
+      <SelectImageModal
+        open={currentIndexToChangeImage !== undefined}
+        onCancel={() => setCurrentIndexToChangeImage(undefined)}
+        onFinish={(selectedImage) => {
+          handleChange(currentIndexToChangeImage, 'image', selectedImage)
+        }}
+        key={currentIndexToChangeImage}
+        initialValue={words[currentIndexToChangeImage]?.word}
+      />
     </div>
   )
 }

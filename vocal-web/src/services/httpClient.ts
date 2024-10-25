@@ -10,7 +10,7 @@ const httpClient = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
 })
 
-axios.interceptors.request.use(
+httpClient.interceptors.request.use(
   function (config) {
     // Do something before request is sent
     config.validateStatus = function (status) {

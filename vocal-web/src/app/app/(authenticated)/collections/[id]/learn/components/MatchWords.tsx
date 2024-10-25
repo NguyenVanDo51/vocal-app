@@ -34,8 +34,6 @@ const MatchWords = ({ question, handleAnswer }) => {
       setSelectedVietnamese(null)
       setSelectedEnglish(null)
       setIncorrectPair(null) // Xóa highlight đỏ khi match đúng
-      console.log('matchedPairs', matchedPairs)
-      console.log('randomWords', randomWords)
 
       if (matchedPairs.length + 1 === randomWords.length) {
         handleAnswer(true) // Tất cả từ đã đúng
