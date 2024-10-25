@@ -43,7 +43,7 @@ export const SignInClient = () => {
 
         <AlertDialogContent>
           <AlertDialogHeader>
-            {/* <AlertDialogTitle className="text-center">Sign in to <span className='text-primary'>Vocazia</span></AlertDialogTitle> */}
+            {/* <AlertDialogTitle className="text-center">Sign in to <span className='text-primary'>QuizLingo</span></AlertDialogTitle> */}
 
             <AlertDialogDescription className="flex flex-col gap-4 justify-center items-center pb-8">
               <img src="/images/welcome.svg" className="w-[330px]" alt="welcome-image" />

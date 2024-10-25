@@ -19,7 +19,7 @@ export const Header = () => {
   return (
     <header className="flex justify-between items-center py-2 px-4">
       <Link href="/app" className="text-xl font-bold uppercase">
-        Vocazia
+        QuizLingo
       </Link>
 
       <div className="flex items-center gap-6">

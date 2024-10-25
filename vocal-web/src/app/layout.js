@@ -14,10 +14,10 @@ const inter = Roboto({
 })
 
 export const metadata = {
-  title: "Vocazia - Learn English Easily",
+  title: "QuizLingo - Learn English Easily",
   description:
-    "Vocazia is an interactive platform to learn English by creating and sharing custom vocabulary lists.",
-  keywords: "learn English, vocabulary, language learning, Vocazia, Duolingo alternative",
+    "QuizLingo is an interactive platform to learn English by creating and sharing custom vocabulary lists.",
+  keywords: "learn English, vocabulary, language learning, QuizLingo, Duolingo alternative",
   authors: ["Your Name"],
 };
 

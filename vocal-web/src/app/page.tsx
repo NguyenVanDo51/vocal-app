@@ -18,7 +18,7 @@ export default function Page(req) {
         <a className="block" href="/">
           <img className="dont-replace hidden w-32 lg:w-auto" src="" alt="logo" />
           <div id="nav-name-text" className="primary-color-text text-3xl font-bold text-indigo-500">
-            Vocazia
+            QuizLingo
           </div>
         </a>
         <div id="nav-links" className="hidden items-center gap-4 text-gray-500 md:flex lg:gap-14">
@@ -77,7 +77,7 @@ export default function Page(req) {
               </div>
             </div>
             <p id="hero-subtext" className="pb-9 pt-4 text-lg font-light text-gray-500">
-              Vocazia is your ultimate English learning companion, enabling you to personalize your
+              QuizLingo is your ultimate English learning companion, enabling you to personalize your
               learning journey by creating and exploring vocabulary sets tailored to your needs.
             </p>
             <div className="relative flex items-start gap-4 pb-24 md:items-center md:gap-10">
@@ -122,7 +122,7 @@ export default function Page(req) {
                   </div>
                 </div>
                 <p id="testimonial-quote1" className="text-sm font-thin text-gray-500">
-                  Vocazia has transformed the way I learn English, making vocabulary building engaging
+                  QuizLingo has transformed the way I learn English, making vocabulary building engaging
                   and incredibly effective.
                 </p>
                 <img
@@ -256,7 +256,7 @@ export default function Page(req) {
                 id="about-header"
                 className="text-4xl/normal font-bold lg:text-5xl/normal xl:text-6xl/normal"
               >
-                Why You Need Vocazia?
+                Why You Need QuizLingo?
               </h1>
               <img
                 className="dont-replace absolute left-12 top-12 z-10 w-40 lg:top-16 lg:w-64 xl:top-20"
@@ -265,10 +265,10 @@ export default function Page(req) {
               />
             </div>
             <p id="about-subtext" className="font-thin text-gray-500 lg:pl-20 lg:text-lg">
-              Vocazia is more than just another English learning app. Built using Next.js and styled
+              QuizLingo is more than just another English learning app. Built using Next.js and styled
               with TailwindCSS, it offers a vibrant and engaging platform where you can learn and
               expand your vocabulary. Whether you create your own word sets or learn from those
-              shared by others, Vocazia was designed to be inclusive and easy to use, making language
+              shared by others, QuizLingo was designed to be inclusive and easy to use, making language
               acquisition enjoyable and efficient.
             </p>
             <img
@@ -376,7 +376,7 @@ export default function Page(req) {
                 id="why-choose-us-header"
                 className="pr-12 text-4xl/normal font-bold lg:text-5xl/normal xl:text-6xl/normal"
               >
-                Why Choose Vocazia?
+                Why Choose QuizLingo?
               </h1>
               <img
                 className="dont-replace absolute left-12 top-12 z-10 w-40 lg:top-16 lg:w-64 xl:top-20"
@@ -391,7 +391,7 @@ export default function Page(req) {
             </div>
             <p id="why-choose-us-subtext" className="font-thin text-gray-500 lg:pl-20 lg:text-lg">
               Because learning a new language should be as dynamic and personalized as you are. With
-              Vocazia, take advantage of cutting-edge technology to elevate your English vocabulary
+              QuizLingo, take advantage of cutting-edge technology to elevate your English vocabulary
               skills and connect with a community of learners.
             </p>
             <img
@@ -727,7 +727,7 @@ export default function Page(req) {
             <a className="block" href="/">
               <img className="dont-replace hidden w-32 lg:w-auto" src="" alt="logo" />
               <div id="footer-name-text" className="text-3xl font-bold text-white">
-                Vocazia
+                QuizLingo
               </div>
             </a>
             <div className="flex flex-col items-center gap-4 text-white sm:flex-row sm:gap-8 lg:gap-14">
@@ -779,7 +779,7 @@ export default function Page(req) {
               id="footer-copyright"
               className="text-center text-lg font-thin text-white md:text-left"
             >
-              © Vocazia 2024.
+              © QuizLingo 2024.
             </p>
           </div>
         </div>

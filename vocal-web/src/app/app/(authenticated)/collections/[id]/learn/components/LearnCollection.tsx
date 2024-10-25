@@ -114,8 +114,6 @@ const LearningScreen = ({ collection }) => {
   }, [collection])
 
   const handleAnswer = async (correct) => {
-    // setCurrentComponent(<Done />)
-    // return
     setProgress(Math.round(((currentQuestionIndex + 1) / questions.length) * 100))
 
     setFeedbackMessage(

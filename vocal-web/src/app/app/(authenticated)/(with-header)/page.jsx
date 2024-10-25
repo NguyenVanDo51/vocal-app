@@ -6,7 +6,7 @@ export default async function Page() {
   const cookieStore = cookies()
   const jwt = cookieStore.get('jwt')
   if (!jwt) {
-    return redirect('/sign-in')
+    return redirect('/')
   }
 
   return <HomeClient />
