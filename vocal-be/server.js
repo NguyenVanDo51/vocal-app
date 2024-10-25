@@ -5,9 +5,15 @@ const collectionRoutes = require('./modules/collection/collectionRoutes')
 const userRoutes = require('./modules/user/userRoutes')
 
 const app = express()
-app.use(cors({
-  origin: '*', // Cho phép tất cả các miền
-}));
+
+const corsOptions = {
+  origin: 'https://api.talk4learn.com', // Thay đổi thành miền cụ thể nếu cần
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true, // Nếu bạn cần gửi cookies hoặc thông tin xác thực
+};
+
+app.use(cors(corsOptions));
+
 
 app.use(express.json())
 
