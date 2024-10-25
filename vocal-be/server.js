@@ -8,16 +8,13 @@ const app = express()
 
 app.use(express.json())
 
-const corsOptions = (req, callback) => {
-  let corsOptions;
-  if (req.header('Origin') === 'https://vocal-app.vercel.app' || req.header('Origin') === 'http://localhost:3000') {
-      corsOptions = { origin: true }; // Cho phép yêu cầu từ miền hợp lệ
-  } else {
-      corsOptions = { origin: false }; // Không cho phép yêu cầu từ miền không hợp lệ
-  }
-  callback(null, corsOptions);
+const corsOptions = {
+  origin: ['http://localhost:3000', 'https://vocal-app.vercel.app'], // Các miền được phép
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Phương thức HTTP được phép
+  allowedHeaders: ['Content-Type', 'Authorization'], // Headers được phép
 };
 
+// Sử dụng middleware CORS
 app.use(cors(corsOptions));
 
 app.use('/api', authRoutes)
