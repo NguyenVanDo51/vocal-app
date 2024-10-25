@@ -15,7 +15,9 @@ const corsOptions = {
 };
 
 // Sử dụng middleware CORS
-app.use(cors(corsOptions));
+app.use(cors({
+  origin: '*', // Cho phép tất cả các miền (chỉ dùng trong môi trường phát triển)
+}));
 
 app.use('/api', authRoutes)
 app.use('/api', collectionRoutes)
