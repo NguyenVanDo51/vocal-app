@@ -7,20 +7,18 @@ const userRoutes = require('./modules/user/userRoutes')
 const app = express()
 
 app.use(express.json())
-app.use(
-  cors(
-    {
-      origin: 'https://vocal-app.vercel.app', // Thay bằng tên miền của bạn
-      methods: ['GET', 'POST', 'PUT', 'DELETE'], // Phương thức HTTP được phép
-      allowedHeaders: ['Content-Type', 'Authorization'], // Headers được phép
-    },
-    {
-      origin: 'http://localhost:3000', // Thay bằng tên miền của bạn
-      methods: ['GET', 'POST', 'PUT', 'DELETE'], // Phương thức HTTP được phép
-      allowedHeaders: ['Content-Type', 'Authorization'], // Headers được phép
-    }
-  )
-)
+
+const corsOptions = (req, callback) => {
+  let corsOptions;
+  if (req.header('Origin') === 'https://vocal-app.vercel.app' || req.header('Origin') === 'http://localhost:3000') {
+      corsOptions = { origin: true }; // Cho phép yêu cầu từ miền hợp lệ
+  } else {
+      corsOptions = { origin: false }; // Không cho phép yêu cầu từ miền không hợp lệ
+  }
+  callback(null, corsOptions);
+};
+
+app.use(cors(corsOptions));
 
 app.use('/api', authRoutes)
 app.use('/api', collectionRoutes)
