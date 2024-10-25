@@ -10,10 +10,9 @@ const corsOptions = {
   origin: 'https://api.talk4learn.com', // Thay đổi thành miền cụ thể nếu cần
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true, // Nếu bạn cần gửi cookies hoặc thông tin xác thực
-};
+}
 
-app.use(cors(corsOptions));
-
+app.use(cors(corsOptions))
 
 app.use(express.json())
 
@@ -25,6 +24,8 @@ app.use('/api', authRoutes)
 app.use('/api', collectionRoutes)
 app.use('/api', cors(), userRoutes)
 
-app.listen(3333, '127.0.0.1', () => {
-  console.log('Server is running on port 3333');
-});
+const PORT = 3001
+
+app.listen(PORT, () => {
+  console.log('Server is running on port', PORT)
+})
