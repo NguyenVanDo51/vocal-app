@@ -25,6 +25,6 @@ app.use('/api', authRoutes)
 app.use('/api', collectionRoutes)
 app.use('/api', cors(), userRoutes)
 
-app.listen(3333, () => {
+app.listen(3333, '127.0.0.1', () => {
   console.log('Server is running on port 3333');
 });
