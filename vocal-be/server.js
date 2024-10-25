@@ -7,21 +7,23 @@ const userRoutes = require('./modules/user/userRoutes')
 const app = express()
 
 app.use(express.json())
+app.use(
+  cors({
+    origin: '*', // Cho phép tất cả các miền
+  })
+)
 
-const corsOptions = {
-  origin: ['http://localhost:3000', 'https://vocal-app.vercel.app'], // Các miền được phép
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Phương thức HTTP được phép
-  allowedHeaders: ['Content-Type', 'Authorization'], // Headers được phép
-};
-
-// Sử dụng middleware CORS
-app.use(cors({
-  origin: '*', // Cho phép tất cả các miền (chỉ dùng trong môi trường phát triển)
-}));
+app.use(function (req, res, next) {
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE')
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
+  res.setHeader('Access-Control-Allow-Credentials', true)
+  next()
+})
 
 app.use('/api', authRoutes)
 app.use('/api', collectionRoutes)
-app.use('/api', userRoutes)
+app.use('/api', cors(), userRoutes)
 
 app.listen(3333, () => {
   console.log('Server is running on port 3333')
