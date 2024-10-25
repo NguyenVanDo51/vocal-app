@@ -5,7 +5,9 @@ const collectionRoutes = require('./modules/collection/collectionRoutes')
 const userRoutes = require('./modules/user/userRoutes')
 
 const app = express()
-app.use(cors())
+app.use(cors({
+  origin: '*', // Cho phép tất cả các miền
+}));
 
 app.use(express.json())
 
