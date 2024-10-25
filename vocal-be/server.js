@@ -3,7 +3,6 @@ var cors = require('cors')
 const authRoutes = require('./modules/auth/authRoutes')
 const collectionRoutes = require('./modules/collection/collectionRoutes')
 const userRoutes = require('./modules/user/userRoutes')
-const authenticateJWT = require('./modules/auth/authMiddleware')
 
 const app = express()
 
