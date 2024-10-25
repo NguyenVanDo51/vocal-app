@@ -17,6 +17,10 @@ app.use(cors(corsOptions));
 
 app.use(express.json())
 
+app.use('/', () => {
+  return 'Hello World'
+})
+
 app.use('/api', authRoutes)
 app.use('/api', collectionRoutes)
 app.use('/api', cors(), userRoutes)
