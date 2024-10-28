@@ -1,10 +1,10 @@
-docker run --name lovefi-postgres -v lovefidb:/data/db -e POSTGRES_PASSWORD="g&r*67b2^hsh#0w*m16v^r_qx41=ikii@h" -d -p 5433:5432 postgres
+docker run --name vocalstripe-postgres -v vocalstripedb:/data/db -e POSTGRES_PASSWORD="g&r*67b2^hsh#0w*m16v^r_qx41=ikii@h" -d -p 5433:5432 postgres
 
-`docker exec -it lovefi-postgres bash`
+`docker exec -it vocalstripe-postgres bash`
 
 `psql -U postgres`
 
-`create database lovefi`
+`create database vocalstripe`
 
 `\q`
 
@@ -12,7 +12,7 @@ docker run --name lovefi-postgres -v lovefidb:/data/db -e POSTGRES_PASSWORD="g&r
 
 ## migrate trong docker container
 
-`docker exec -t -i lovefibe bash`
+`docker exec -t -i vocalstripebe bash`
 `python manage.py migrate`
 
 
