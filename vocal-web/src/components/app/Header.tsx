@@ -13,9 +13,16 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { deleteCookie } from '@/lib/utils'
+import { Dropdown } from 'antd'
+import { useRouter } from 'next/navigation'
+import { ModalChangeUnit } from './ModalChangeUnit'
+import { useState } from 'react'
 
 export const Header = () => {
   const { profile } = useProfile()
+  const router = useRouter()
+  const [openUnitCreateModal, setOpenUnitCreateModal] = useState(false)
+
   return (
     <header className="flex justify-between items-center py-2 px-4">
       <Link href="/app" className="text-xl font-bold uppercase">
@@ -23,17 +30,28 @@ export const Header = () => {
       </Link>
 
       <div className="flex items-center gap-6">
-        <Link href="/app/community" className='hover:text-primary'>
+        <Link href="/app/community" className="hover:text-primary">
           <span className="cursor-pointer">Community</span>
         </Link>
       </div>
 
       <div className="flex items-center gap-6">
-        <Link href="/app/collections/create">
+        <Dropdown
+          menu={{
+            items: [
+              { label: 'Unit', key: '1', onClick: () => setOpenUnitCreateModal(true) },
+              {
+                label: 'Lesson',
+                key: 2,
+                onClick: () => router.push('/app/collections/create'),
+              },
+            ],
+          }}
+        >
           <Button className="min-w-[unset]" size="lg">
             Create
           </Button>
-        </Link>
+        </Dropdown>
 
         <span className="cursor-pointer">
           <svg
@@ -71,6 +89,8 @@ export const Header = () => {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
+
+      <ModalChangeUnit open={openUnitCreateModal} onCancel={() => setOpenUnitCreateModal(false)} />
     </header>
   )
 }

@@ -32,12 +32,12 @@ exports.createCollection = async (req, res) => {
   const user = req.user
   const userId = user.id
 
-  const { name, words, topic_id = null } = req.body
-  console.log([userId, name, words, topic_id])
+  const { name, words, unit_id = null } = req.body
+  console.log([userId, name, words, unit_id])
   try {
     await db.query(
-      'INSERT INTO collections (user_id, name, words, topic_id) VALUES ($1, $2, $3, $4) RETURNING id',
-      [userId, name, JSON.stringify(words), topic_id]
+      'INSERT INTO collections (user_id, name, words, unit_id) VALUES ($1, $2, $3, $4) RETURNING id',
+      [userId, name, JSON.stringify(words), unit_id]
     )
 
     res.status(201).json({ message: 'Collection created successfully' })
@@ -49,12 +49,12 @@ exports.createCollection = async (req, res) => {
 // Sửa một bộ từ vựng, xóa tất cả từ cũ và tạo lại
 exports.updateCollection = async (req, res) => {
   const { collectionId } = req.params
-  const { name, words, topic_id = null } = req.body
+  const { name, words, unit_id = null } = req.body
 
   try {
     await db.query(
-      'UPDATE collections SET name = $2, topic_id = $3, words = $4 WHERE id = $1',
-      [collectionId, name, topic_id, JSON.stringify(words)]
+      'UPDATE collections SET name = $2, unit_id = $3, words = $4 WHERE id = $1',
+      [collectionId, name, unit_id, JSON.stringify(words)]
     )
 
     res.json({ message: 'Collection updated successfully' })

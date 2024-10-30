@@ -5,17 +5,19 @@ import { Button } from '@/components/ui/button'
 import React, { useEffect, useState } from 'react'
 import { httpClient } from '@/services/httpClient'
 import { useRouter } from 'next/navigation'
-import { Avatar } from 'antd'
+import { Avatar, Select } from 'antd'
 import { Plus, Trash } from 'lucide-react'
 import { SelectImageModal } from '@/components/app/SelectImageModal'
+import { useUserUnit } from '@/hooks/useUserUnit'
 
 const NewCollectionClient = ({ collectionId }) => {
   const [collectionName, setCollectionName] = useState<string>()
   const [words, setWords] = useState([
     { word: '', meaning: '', image: '', pronunciation: '', example: '' },
   ])
+  const [unitId, setUnitId] = useState()
   const [currentIndexToChangeImage, setCurrentIndexToChangeImage] = useState(undefined)
-
+  const { userUnit } = useUserUnit()
   const router = useRouter()
 
   const addNewWord = () => {
@@ -53,6 +55,7 @@ const NewCollectionClient = ({ collectionId }) => {
     httpClient[method](url, {
       id: collectionId,
       name: collectionName,
+      unit_id: unitId,
       words,
     }).then(() => {
       router.push('/app')
@@ -64,6 +67,7 @@ const NewCollectionClient = ({ collectionId }) => {
       httpClient.get(`/collections/${collectionId}`).then((res) => {
         setCollectionName(res.data.name)
         setWords(res.data.words)
+        setUnitId(res.data.unit_id)
       })
     }
   }, [])
@@ -74,12 +78,23 @@ const NewCollectionClient = ({ collectionId }) => {
         {collectionId ? 'Update collection' : 'Create collection'}
       </h2>
 
-      <Input
-        type="text"
-        placeholder="Name"
-        value={collectionName}
-        onChange={(e) => setCollectionName(e.target.value)}
-      />
+      <div className="flex md:flex-row gap-3">
+        <Input
+          type="text"
+          placeholder="Name"
+          value={collectionName}
+          onChange={(e) => setCollectionName(e.target.value)}
+        />
+
+        <Select
+          options={userUnit}
+          fieldNames={{ label: 'name', value: 'id' }}
+          value={unitId}
+          onChange={(value) => setUnitId(value)}
+          placeholder="Select unit"
+          className='w-60'
+        />
+      </div>
 
       {words.map((word, index) => (
         <div
@@ -95,6 +110,7 @@ const NewCollectionClient = ({ collectionId }) => {
             value={word.word}
             onChange={(e) => handleChange(index, 'word', e.target.value)}
           />
+
           <Input
             className="border-black/20"
             type="text"
