@@ -9,14 +9,3 @@ docker run --name vocalstripe-postgres -v vocalstripedb:/data/db -e POSTGRES_PAS
 `\q`
 
 `exit`
-
-## migrate trong docker container
-
-`docker exec -t -i vocalstripebe bash`
-`python manage.py migrate`
-
-
-## run local
-- Setup venv
-- Chạy:
-`python3 manage runserver`
