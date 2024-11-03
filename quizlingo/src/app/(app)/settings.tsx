@@ -1,15 +1,13 @@
 /* eslint-disable react/react-in-jsx-scope */
+import { useAuth } from '@clerk/clerk-expo';
 import { Env } from '@env';
 import { useColorScheme } from 'nativewind';
 
 import { Item } from '@/components/settings/item';
 import { ItemsContainer } from '@/components/settings/items-container';
-import { LanguageItem } from '@/components/settings/language-item';
-import { ThemeItem } from '@/components/settings/theme-item';
 import { translate } from '@/core';
 import { colors, FocusAwareStatusBar, ScrollView, Text, View } from '@/ui';
 import { Github, Rate, Share, Support, Website } from '@/ui/icons';
-import { useAuth } from '@clerk/clerk-expo';
 
 export default function Settings() {
   const { signOut } = useAuth();
@@ -25,10 +23,10 @@ export default function Settings() {
           <Text className="text-xl font-bold">
             {translate('settings.title')}
           </Text>
-          <ItemsContainer title="settings.generale">
+          {/* <ItemsContainer title="settings.generale">
             <LanguageItem />
             <ThemeItem />
-          </ItemsContainer>
+          </ItemsContainer> */}
 
           <ItemsContainer title="settings.about">
             <Item text="settings.app_name" value={Env.NAME} />

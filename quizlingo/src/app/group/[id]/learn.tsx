@@ -1,21 +1,22 @@
-import { IWord } from '@/api/words/type';
-import { Done } from '@/components/learn/Done';
-import { MatchWords } from '@/components/learn/MatchWords';
-import { PickCorrectAnswer } from '@/components/learn/PickCorretAnswer';
-import {
-  QuestionType,
-  IQuestion,
-  questionTitleMapping,
-} from '@/components/learn/type';
-import { shuffleArray, textToSpeech } from '@/core';
-import { httpClient } from '@/services/httpClient';
-import { Pressable, ProgressBar, Text, View } from '@/ui';
-import { useQuery } from '@tanstack/react-query';
+/* eslint-disable max-lines-per-function */
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { Volume2, X } from 'lucide-react-native';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import Svg, { Path } from 'react-native-svg';
+
+import { type IWord } from '@/api/words/type';
+import { Done } from '@/components/learn/complated';
+import { MatchWords } from '@/components/learn/match-words';
+import { PickCorrectAnswer } from '@/components/learn/pick-correct-answer';
+import {
+  type IQuestion,
+  questionTitleMapping,
+  QuestionType,
+} from '@/components/learn/type';
+import { shuffleArray, textToSpeech } from '@/core';
+import { httpClient } from '@/services/httpClient';
+import { Pressable, ProgressBar, Text, View } from '@/ui';
 
 function getRandomType() {
   // Mảng chứa các chuỗi và tỉ lệ của chúng
@@ -49,7 +50,6 @@ export default function AddPost() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [incorrectWords, setIncorrectWords] = useState<IQuestion[]>([]);
   const [feedbackMessage, setFeedbackMessage] = useState('');
-  const [progress, setProgress] = useState(0);
   const [isDoingIncorrectWords, setIsDoingIncorrectWords] = useState(false);
   const [analysis, setAnalysis] = useState({
     correct: 0,
@@ -59,7 +59,9 @@ export default function AddPost() {
     maxStreak: 0,
   });
   const [words, setWords] = useState<IWord[]>([]);
-  const [isDone, setIsDone] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false);
+
+  const processRef: any = React.useRef();
 
   const router = useRouter();
 
@@ -69,11 +71,10 @@ export default function AddPost() {
     httpClient.get('/words', { params: { group_id: groupId } }).then((res) => {
       setWords(res.data.words);
     });
-  }, []);
-
-  const totalQuestions = words.length;
+  }, [groupId]);
 
   useEffect(() => {
+    const totalQuestions = words.length;
     const q: IQuestion[] = [];
     const wordsWithExample = words.filter(
       (word) =>
@@ -116,70 +117,74 @@ export default function AddPost() {
           break;
       }
     }
-    console.log('q', q);
     setQuestions(q);
   }, [words]);
 
-  const handleAnswer = async (correct: boolean) => {
-    setProgress(
-      Math.round(((currentQuestionIndex + 1) / questions.length) * 100),
-    );
+  const handleAnswer = React.useCallback(
+    async (correct: boolean) => {
+      processRef.current?.setProgress(
+        Math.round(((currentQuestionIndex + 1) / questions.length) * 100),
+      );
 
-    setFeedbackMessage(
-      correct
-        ? '🎉 Correct! You got it right!'
-        : '❌ Incorrect! Better luck next time!',
-    );
+      setFeedbackMessage(
+        correct
+          ? '🎉 Correct! You got it right!'
+          : '❌ Incorrect! Better luck next time!',
+      );
 
-    const newAnalysis = { ...analysis };
+      const newAnalysis = { ...analysis };
 
-    if (correct) {
-      console.log('correct');
-      newAnalysis.correct += 1;
-      newAnalysis.streak += 1;
-    } else {
-      newAnalysis.incorrect += 1;
-      newAnalysis.streak = 0;
-    }
+      if (correct) {
+        newAnalysis.correct += 1;
+        newAnalysis.streak += 1;
+      } else {
+        newAnalysis.incorrect += 1;
+        newAnalysis.streak = 0;
+      }
 
-    newAnalysis.time += 1;
-    newAnalysis.maxStreak = Math.max(newAnalysis.maxStreak, newAnalysis.streak);
-    setAnalysis(newAnalysis);
+      newAnalysis.time += 1;
+      newAnalysis.maxStreak = Math.max(
+        newAnalysis.maxStreak,
+        newAnalysis.streak,
+      );
+      setAnalysis(newAnalysis);
 
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    setFeedbackMessage('');
-    const newIncorrectWords = [...incorrectWords];
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      setFeedbackMessage('');
+      const newIncorrectWords = [...incorrectWords];
 
-    if (!correct) {
-      newIncorrectWords.push({
-        ...questions[currentQuestionIndex],
-        timestamp: Date.now(),
-      });
-      setIncorrectWords(newIncorrectWords);
-    }
+      if (!correct) {
+        newIncorrectWords.push({
+          ...questions[currentQuestionIndex],
+          timestamp: Date.now(),
+        });
+        setIncorrectWords(newIncorrectWords);
+      }
 
-    if (currentQuestionIndex + 1 < questions.length) {
+      if (currentQuestionIndex + 1 < questions.length) {
+        setCurrentQuestionIndex(currentQuestionIndex + 1);
+        return;
+      }
+
+      if (newIncorrectWords.length > 0) {
+        setQuestions(shuffleArray(newIncorrectWords));
+        setIncorrectWords([]);
+        setCurrentQuestionIndex(0);
+        setIsDoingIncorrectWords(true);
+        processRef.current?.setProgress(0);
+        return;
+      }
+      setIsCompleted(true);
       setCurrentQuestionIndex(currentQuestionIndex + 1);
-      return;
-    }
-
-    if (newIncorrectWords.length > 0) {
-      setQuestions(shuffleArray(newIncorrectWords));
-      setIncorrectWords([]);
-      setCurrentQuestionIndex(0);
-      setIsDoingIncorrectWords(true);
-      setProgress(0);
-      return;
-    }
-    setIsDone(true);
-    setCurrentQuestionIndex(currentQuestionIndex + 1);
-  };
+    },
+    [analysis, currentQuestionIndex, incorrectWords, questions],
+  );
 
   const renderQuestion = React.useCallback(() => {
     const currentQuestion = questions[currentQuestionIndex];
     console.log('currentQuestion', currentQuestion);
 
-    if (!currentQuestion) return <Done analysis={analysis} />;
+    if (!currentQuestion && isCompleted) return <Done analysis={analysis} />;
 
     switch (currentQuestion?.type) {
       case QuestionType.EN_TO_VN:
@@ -204,7 +209,7 @@ export default function AddPost() {
                 .map((word) => word.meaning)
                 .filter((option) => option !== currentQuestion.word?.meaning),
             ).slice(0, 3)}
-            key={currentQuestion.timestamp}
+            updateKey={currentQuestion.timestamp}
             handleAnswer={handleAnswer}
             onPick={() => textToSpeech(currentQuestion.word?.word as string)}
           />
@@ -220,7 +225,7 @@ export default function AddPost() {
                 .map((word) => word.word)
                 .filter((option) => option !== currentQuestion.word?.word),
             ).slice(0, 3)}
-            key={currentQuestion.timestamp}
+            updateKey={currentQuestion.timestamp}
             handleAnswer={handleAnswer}
             onPick={(option: string) => textToSpeech(option)}
           />
@@ -246,7 +251,7 @@ export default function AddPost() {
                 .map((word) => word.word)
                 .filter((option) => option !== currentQuestion.word?.word),
             ).slice(0, 3)}
-            key={currentQuestion.timestamp}
+            updateKey={currentQuestion.timestamp}
             handleAnswer={handleAnswer}
             onPick={(option: string) => textToSpeech(option)}
           />
@@ -259,7 +264,7 @@ export default function AddPost() {
       default:
         break;
     }
-  }, [currentQuestionIndex, questions]);
+  }, [analysis, currentQuestionIndex, handleAnswer, questions, words]);
 
   const currentQuestion = questions[currentQuestionIndex];
 
@@ -270,23 +275,22 @@ export default function AddPost() {
           headerShown: false,
         }}
       />
-      return (
-      <View className="h-screen py-8 px-6 items-center relative flex flex-col gap-3">
+      <View className="relative flex h-screen flex-col items-center gap-3 px-4 py-6">
         {currentQuestion && (
           <>
-            <View className="w-full max-w-4xl flex items-center justify-between gap-4">
+            <View className="flex w-full max-w-4xl flex-row items-center justify-between gap-4">
               <Pressable onPress={() => router.navigate('/')}>
-                <X size={24} className="cursor-pointer text-muted-foreground" />
+                <X size={24} className="text-muted-foreground cursor-pointer" />
               </Pressable>
-              <ProgressBar initialProgress={progress} />
+              <ProgressBar
+                ref={processRef}
+                className="flex-1"
+                initialProgress={10}
+              />
             </View>
 
-            <View className="w-full max-w-4xl flex items-center justify-between gap-4">
-              <Text className="text-xl font-bold">
-                {isDoingIncorrectWords &&
-                  "Let's try again with incorrect words"}
-              </Text>
-              <Text className="inline-flex items-center text-lg font-medium">
+            <View className="flex w-full max-w-4xl items-end gap-2">
+              <Text className="inline-flex items-center">
                 Streak: {analysis.streak}{' '}
                 <Svg
                   width="20"
@@ -312,9 +316,15 @@ export default function AddPost() {
           </>
         )}
 
-        <View className="w-full flex-1 max-w-xl flex flex-col justify-center">
+        <View className="flex w-full max-w-xl flex-1 flex-col justify-center gap-3">
+          <Text className="text-red-500">
+            {isDoingIncorrectWords &&
+              !isCompleted &&
+              'Cùng làm lại các câu sai nhé!'}
+          </Text>
+
           {currentQuestion && (
-            <Text className="text-2xl font-bold mb-6">
+            <Text className="text-xl font-medium">
               {
                 questionTitleMapping[
                   questions[currentQuestionIndex]?.type as QuestionType
@@ -322,11 +332,10 @@ export default function AddPost() {
               }
             </Text>
           )}
-
-          {renderQuestion()}
+          <View>{renderQuestion()}</View>
 
           <Text
-            className={`text-2xl mt-8 font-bold h-10 w-full text-center ${
+            className={`text-center ${
               feedbackMessage.includes('Correct')
                 ? 'text-green-400'
                 : 'text-red-500'

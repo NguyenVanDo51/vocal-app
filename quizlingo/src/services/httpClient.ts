@@ -1,5 +1,7 @@
-import { storage } from '@/core/storage';
+/* eslint-disable unicorn/filename-case */
 import axios from 'axios'
+
+import { storage } from '@/core/storage';
 
 const httpClient = axios.create({
   timeout: 30000,

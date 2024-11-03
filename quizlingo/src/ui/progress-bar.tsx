@@ -20,32 +20,32 @@ export type ProgressBarRef = {
 export const ProgressBar = forwardRef<ProgressBarRef, Props>(
   ({ initialProgress = 0, className = '' }, ref) => {
     const progress = useSharedValue<number>(initialProgress ?? 0);
-    useImperativeHandle(
-      ref,
-      () => {
-        return {
-          setProgress: (value: number) => {
-            progress.value = withTiming(value, {
-              duration: 250,
-              easing: Easing.inOut(Easing.quad),
-            });
-          },
-        };
-      },
-      [progress]
-    );
+    useImperativeHandle(ref, () => {
+      return {
+        setProgress: (value: number) => {
+          progress.value = withTiming(value, {
+            duration: 250,
+            easing: Easing.inOut(Easing.quad),
+          });
+        },
+      };
+    }, [progress]);
 
     const style = useAnimatedStyle(() => {
       return {
         width: `${progress.value}%`,
         backgroundColor: '#000',
-        height: 2,
+        height: 8,
+        borderRadius: 8,
       };
     });
+
     return (
-      <View className={twMerge(` bg-[#EAEAEA]`, className)}>
+      <View
+        className={twMerge(`bg-[#EAEAEA] h-2 rounded-full w-full`, className)}
+      >
         <Animated.View style={style} />
       </View>
     );
-  }
+  },
 );

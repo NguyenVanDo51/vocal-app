@@ -1,6 +1,4 @@
-import { colorScheme, useColorScheme } from 'nativewind';
-import React from 'react';
-import { useMMKVString } from 'react-native-mmkv';
+import { colorScheme } from 'nativewind';
 
 import { storage } from '../storage';
 
@@ -13,26 +11,33 @@ export type ColorSchemeType = 'light' | 'dark' | 'system';
  * don't use this hooks if you want to use it to style your component based on the theme use useColorScheme from nativewind instead
  *
  */
-export const useSelectedTheme = () => {
-  const { colorScheme: _color, setColorScheme } = useColorScheme();
-  const [theme, _setTheme] = useMMKVString(SELECTED_THEME, storage);
+// export const useSelectedTheme = () => {
+//   const { colorScheme: _color, setColorScheme } = useColorScheme();
+//   const [theme, _setTheme] = useMMKVString(SELECTED_THEME, storage);
 
-  const setSelectedTheme = React.useCallback(
-    (t: ColorSchemeType) => {
-      setColorScheme(t);
-      _setTheme(t);
-    },
-    [setColorScheme, _setTheme],
-  );
+//   const setSelectedTheme = React.useCallback(
+//     (t: ColorSchemeType) => {
+//       try {
+//         // setColorScheme(t);
+//         // Appearance.setColorScheme('light');
+//       } catch (e) {
+//         console.log(e);
+//       }
+//       _setTheme(t);
+//     },
+//     [_setTheme],
+//   );
 
-  const selectedTheme = (theme ?? 'system') as ColorSchemeType;
-  return { selectedTheme, setSelectedTheme } as const;
-};
+//   const selectedTheme = (theme ?? 'system') as ColorSchemeType;
+//   return { selectedTheme, setSelectedTheme } as const;
+// };
 // to be used in the root file to load the selected theme from MMKV
 export const loadSelectedTheme = () => {
   const theme = storage.getString(SELECTED_THEME);
   if (theme !== undefined) {
     console.log('theme', theme);
-    colorScheme.set("light");
+    if (typeof window != 'undefined') {
+      colorScheme.set('light');
+    }
   }
 };

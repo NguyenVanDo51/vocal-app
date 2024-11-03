@@ -1,4 +1,5 @@
-import { Linking } from 'react-native';
+import { Linking, Platform } from 'react-native';
+import Tts from 'react-native-tts';
 import type { StoreApi, UseBoundStore } from 'zustand';
 
 export function openLinkInBrowser(url: string) {
@@ -25,4 +26,15 @@ export const shuffleArray = (array: any[]) => array.sort(() => Math.random() - 0
 
 export const textToSpeech = (text: string) => {
   console.log("textToSpeech", text)
+  if (Platform.OS === 'web') {
+    window.speechSynthesis.cancel()
+
+    var msg = new SpeechSynthesisUtterance();
+    msg.text = text;
+    msg.lang = 'en-US'
+    window.speechSynthesis.speak(msg);
+
+  } else {
+    Tts.speak(text)
+  }
 }

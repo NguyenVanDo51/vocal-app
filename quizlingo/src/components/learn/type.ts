@@ -1,4 +1,4 @@
-import { IWord } from "@/api/words/type";
+import { type IWord } from "@/api/words/type";
 
 export enum QuestionType {
   EN_TO_VN = 'en-to-vn',
@@ -8,10 +8,10 @@ export enum QuestionType {
 }
 
 export const questionTitleMapping = {
-  [QuestionType.EN_TO_VN]: 'Select meaning',
-  [QuestionType.VN_TO_EN]: 'Select segment',
-  [QuestionType.MATCH]: 'Match the words',
-  [QuestionType.FILL_BLANK]: 'Fill the blank',
+  [QuestionType.EN_TO_VN]: 'Chọn ý nghĩa',
+  [QuestionType.VN_TO_EN]: 'Chọn từ vựng',
+  [QuestionType.MATCH]: 'Nhấn vào các cặp tương ứng',
+  [QuestionType.FILL_BLANK]: 'Chọn đáp án đúng',
 };
 
 export interface IQuestion {

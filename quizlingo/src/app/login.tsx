@@ -1,12 +1,12 @@
+import { useAuth, useOAuth } from '@clerk/clerk-expo';
 import { Redirect } from 'expo-router';
 import React from 'react';
 
-import type { LoginFormProps } from '@/components/login-form';
-import { FocusAwareStatusBar, Text, TouchableOpacity } from '@/ui';
-import { useAuth, useOAuth } from '@clerk/clerk-expo';
+import LoginScreen from '@/components/auth/login/login-with-google';
+import { FocusAwareStatusBar } from '@/ui';
 
 export default function Login() {
-  const { isSignedIn, ...auth } = useAuth();
+  const { isSignedIn } = useAuth();
 
   const { signOut } = useAuth();
 
@@ -17,8 +17,6 @@ export default function Login() {
       console.log('startOAuthFlow');
       const {
         createdSessionId,
-        signIn,
-        signUp,
         setActive: setActiveOAuth,
         authSessionResult,
       } = await startOAuthFlow();
@@ -36,7 +34,7 @@ export default function Login() {
     } catch (err) {
       console.error('OAuth error', err);
     }
-  }, []);
+  }, [signOut, startOAuthFlow]);
 
   if (isSignedIn) {
     return <Redirect href={'/'} />;
@@ -45,14 +43,8 @@ export default function Login() {
   return (
     <>
       <FocusAwareStatusBar />
-      {/* <LoginForm onSubmit={onSubmit} /> */}
 
-      <TouchableOpacity onPress={onPress}>
-        {/* <Image source={require('../assets/google-icon.png')} style={styles.googleIcon} /> */}
-        <Text>Login with Google HIHI</Text>
-      </TouchableOpacity>
-
-      {/* <LoginWithGoogle /> */}
+      <LoginScreen onPress={onPress} />
     </>
   );
 }
