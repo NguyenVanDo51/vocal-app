@@ -1,8 +1,9 @@
-import React from 'react';
 import { FlashList } from '@shopify/flash-list';
-import { EmptyList, FocusAwareStatusBar, Pressable, Text, View } from '@/ui';
-import { useUserGroups } from '@/api/groups/useUserGroups';
 import { Link } from 'expo-router';
+import React from 'react';
+
+import { useUserGroups } from '@/api/groups/useUserGroups';
+import { EmptyList, FocusAwareStatusBar, Pressable, Text, View } from '@/ui';
 
 export default function Feed() {
   const { data: userGroups, isPending } = useUserGroups();
@@ -10,7 +11,7 @@ export default function Feed() {
   const renderItem = React.useCallback(
     ({ item }: { item: any }) => (
       <Link href={`/group/${item.id}/words`} asChild>
-        <Pressable className="px-4 my-2">
+        <Pressable className="my-2 px-4">
           <Text>{item.name}</Text>
         </Pressable>
       </Link>

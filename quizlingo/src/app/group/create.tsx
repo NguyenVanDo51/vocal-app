@@ -5,10 +5,9 @@ import { useForm } from 'react-hook-form';
 import { showMessage } from 'react-native-flash-message';
 import { z } from 'zod';
 
-import { queryClient, useAddPost, usePosts } from '@/api';
-import { Button, ControlledInput, showErrorMessage, View } from '@/ui';
+import { queryClient } from '@/api';
 import { useCreateGroup } from '@/api/groups/useCreateGroup';
-import { useUserGroups } from '@/api/groups/useUserGroups';
+import { Button, ControlledInput, showErrorMessage, View } from '@/ui';
 
 const schema = z.object({
   name: z.string().min(5),

@@ -7,7 +7,7 @@ export default function LoginScreen({
 }) {
   return (
     <p onClick={() => onPress()} className="cursor-pointer">
-      Login with Google
+      Login with Google web
     </p>
   );
 }

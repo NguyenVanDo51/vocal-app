@@ -2,7 +2,7 @@ import { useAuth, useOAuth } from '@clerk/clerk-expo';
 import { Redirect } from 'expo-router';
 import React from 'react';
 
-import LoginScreen from '@/components/auth/login/login-with-google';
+import LoginScreen from '@/components/auth/login/index';
 import { FocusAwareStatusBar } from '@/ui';
 
 export default function Login() {
