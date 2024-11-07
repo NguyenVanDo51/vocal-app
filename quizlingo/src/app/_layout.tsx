@@ -16,6 +16,7 @@ import { APIProvider } from '@/api';
 import { loadSelectedTheme } from '@/core';
 import { useThemeConfig } from '@/core/use-theme-config';
 export { ErrorBoundary } from 'expo-router';
+import { PaperProvider } from 'react-native-paper';
 
 export const unstable_settings = {
   initialRouteName: '(app)',
@@ -67,11 +68,16 @@ export default function RootLayout() {
     <ClerkProvider tokenCache={tokenCache} publishableKey={publishableKey}>
       <ClerkLoaded>
         <Providers>
-          <Stack>
-            <Stack.Screen name="(app)" options={{ headerShown: false }} />
-            <Stack.Screen name="onboarding" options={{ headerShown: false }} />
-            <Stack.Screen name="login" options={{ headerShown: false }} />
-          </Stack>
+          <PaperProvider>
+            <Stack>
+              <Stack.Screen name="(app)" options={{ headerShown: false }} />
+              <Stack.Screen
+                name="onboarding"
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen name="login" options={{ headerShown: false }} />
+            </Stack>
+          </PaperProvider>
         </Providers>
       </ClerkLoaded>
     </ClerkProvider>

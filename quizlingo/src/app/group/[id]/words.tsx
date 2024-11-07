@@ -40,7 +40,7 @@ export default function Post() {
           router.navigate(`/group/${groupId}/words/${item.id}/edit`);
         }}
       >
-        <Text>{item.word}</Text>
+        <Text>{item.word} - {item.meaning}</Text>
       </Pressable>
     ),
     [groupId, router, setWord],

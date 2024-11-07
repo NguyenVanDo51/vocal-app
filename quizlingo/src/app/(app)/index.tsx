@@ -4,15 +4,21 @@ import React from 'react';
 
 import { useUserGroups } from '@/api/groups/useUserGroups';
 import { EmptyList, FocusAwareStatusBar, Pressable, Text, View } from '@/ui';
+import { IGroup } from '@/api/groups/types';
 
 export default function Feed() {
   const { data: userGroups, isPending } = useUserGroups();
 
   const renderItem = React.useCallback(
-    ({ item }: { item: any }) => (
-      <Link href={`/group/${item.id}/words`} asChild>
-        <Pressable className="my-2 px-4">
-          <Text>{item.name}</Text>
+    ({ item }: { item: IGroup }) => (
+      <Link href={`/group/${item.id}/words`} key={item.id} asChild>
+        <Pressable >
+          <View className="group my-2 p-3 rounded-md bg-gray-100">
+            <Text className="text-lg font-medium">{item.name}</Text>
+            <Text className="text-gray-500 text-sm font-light">
+              created_by: {item.created_by}%
+            </Text>
+          </View>
         </Pressable>
       </Link>
     ),
@@ -20,13 +26,8 @@ export default function Feed() {
   );
 
   return (
-    <View className="flex-1 ">
+    <View className="flex-1 px-3">
       <FocusAwareStatusBar />
-      <Link href="/group/create" asChild>
-        <Pressable>
-          <Text className="px-3 text-primary-300">Create</Text>
-        </Pressable>
-      </Link>
 
       <FlashList
         data={userGroups}
