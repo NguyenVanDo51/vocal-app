@@ -1,5 +1,7 @@
 git pull origin main
 
+chmod +x deploy.sh
+
 npm install
 
 pm2 stop vocabapi
