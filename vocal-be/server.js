@@ -33,6 +33,10 @@ app.get('/', (req, res) => {
   res.json({ greeting: 'Hello world1' })
 })
 
+app.get('/api/test', (req, res) => {
+  res.json({ msg: 'ok' })
+})
+
 app.listen(3333, () => {
   console.log('Server is running on port 3333')
 })
