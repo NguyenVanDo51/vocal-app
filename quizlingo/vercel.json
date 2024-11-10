@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npx expo export -p web",
+  "buildCommand": "NODE_ENV=production EXPO_NO_DOTENV=1 npx expo export -p web",
   "outputDirectory": "dist",
   "devCommand": "expo",
   "cleanUrls": true,
