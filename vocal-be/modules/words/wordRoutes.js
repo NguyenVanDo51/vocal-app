@@ -8,7 +8,7 @@ const path = require("path");
 const { getWordInfo } = require("./gemini");
 
 router.get("/words", authenticateJWT, async (req, res) => {
-  const { group_id, limit = 20, offset = 0 } = req.query;
+  const { group_id, limit = 50, offset = 0 } = req.query;
 
   try {
     let query = "SELECT * FROM words";
@@ -21,7 +21,7 @@ router.get("/words", authenticateJWT, async (req, res) => {
     }
 
     // Thêm phân trang với limit và offset
-    query += " ORDER BY id ASC LIMIT $2 OFFSET $3";
+    query += " ORDER BY id DESC LIMIT $2 OFFSET $3";
     queryParams.push(Number(limit), Number(offset));
 
     const result = await db.query(query, queryParams);
@@ -152,7 +152,9 @@ router.get("/words/info", async (req, res) => {
     return res.json({});
   }
   try {
-    const wordInfo = JSON.parse(await getWordInfo(word));
+    const strData = await getWordInfo(word)
+    console.log("strData", strData)
+    const wordInfo = JSON.parse(strData); 
     res.json({
       ...wordInfo,
       proun: wordInfo.pronoun,

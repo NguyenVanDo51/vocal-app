@@ -8,29 +8,25 @@ import { type IWord } from '@/api/words/type';
 import { useWords } from '@/api/words/useWords';
 import { useWordStore } from '@/api/words/useWordStore';
 import { BUTTON_FULL_WIDTH } from '@/core/constant/dimenssions';
-import { EmptyList, FocusAwareStatusBar, Pressable, Text, View } from '@/ui';
+import {
+  ActivityIndicator,
+  EmptyList,
+  FocusAwareStatusBar,
+  Pressable,
+  Text,
+  View,
+} from '@/ui';
 
 export default function Post() {
   const { id: groupId } = useLocalSearchParams<{ id: string }>();
   const setWord = useWordStore((state) => {
-    console.log('state', state);
     return state?.setWord || (() => {});
   });
-  console.log('setWord', setWord);
   const router = useRouter();
   const { data, isPending } = useWords({
     groupId: Number(groupId),
     offset: 0,
   });
-
-  // if (isPending) {
-  //   return (
-  //     <View className="flex-1 justify-center  p-3">
-  //       <FocusAwareStatusBar />
-  //       <ActivityIndicator />
-  //     </View>
-  //   );
-  // }
 
   const renderItem = React.useCallback(
     ({ item }: { item: IWord }) => (
@@ -40,11 +36,22 @@ export default function Post() {
           router.navigate(`/group/${groupId}/words/${item.id}/edit`);
         }}
       >
-        <Text>{item.word} - {item.meaning}</Text>
+        <Text>
+          {item.word} - {item.meaning}
+        </Text>
       </Pressable>
     ),
     [groupId, router, setWord],
   );
+
+  if (isPending) {
+    return (
+      <View className="flex-1 justify-center  p-3">
+        <FocusAwareStatusBar />
+        <ActivityIndicator />
+      </View>
+    );
+  }
 
   return (
     <View className="flex-1 p-3 ">
@@ -56,14 +63,6 @@ export default function Post() {
         }}
       />
 
-      {(!data || data?.words?.length < 1) && (
-        <Link href={`/group/${groupId}/words/add`} asChild>
-          <Pressable>
-            <Text className="px-3 text-primary-300">Thêm</Text>
-          </Pressable>
-        </Link>
-      )}
-
       <FlashList
         data={data?.words}
         renderItem={renderItem}
@@ -73,22 +72,28 @@ export default function Post() {
       />
 
       <View className="flex items-center gap-1">
-        <Link href={`/group/${groupId}/words/add`}>
-          <ThemedButton
-            name="rick"
-            type="secondary"
-            raiseLevel={1}
-            width={BUTTON_FULL_WIDTH}
-          >
-            Add word
-          </ThemedButton>
-        </Link>
+        <ThemedButton
+          name="rick"
+          type="secondary"
+          raiseLevel={1}
+          width={BUTTON_FULL_WIDTH}
+          onPress={() => {
+            router.push(`/group/${groupId}/words/add`);
+          }}
+        >
+          Add word
+        </ThemedButton>
 
-        <Link href={`/group/${groupId}/learn`}>
-          <ThemedButton name="rick" type="primary" width={BUTTON_FULL_WIDTH}>
-            Start Quiz
-          </ThemedButton>
-        </Link>
+        <ThemedButton
+          name="rick"
+          type="primary"
+          width={BUTTON_FULL_WIDTH}
+          onPress={() => {
+            router.push(`/group/${groupId}/learn`);
+          }}
+        >
+          Start Quiz
+        </ThemedButton>
       </View>
     </View>
   );

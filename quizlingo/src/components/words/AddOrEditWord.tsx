@@ -52,15 +52,6 @@ export function AddOrEditWord() {
     },
   });
 
-  React.useEffect(() => {
-    if (word?.id) {
-      setValue('word', word.word);
-      setValue('proun', word.proun);
-      setValue('meaning', word.meaning);
-      setValue('example', word.example || '');
-    }
-  }, [word]);
-
   const onSubmit = (data: FormType) => {
     addWord(
       {
@@ -83,6 +74,21 @@ export function AddOrEditWord() {
       },
     );
   };
+
+  React.useEffect(() => {
+    if (word?.id) {
+      setValue('word', word.word);
+      setValue('proun', word.proun);
+      setValue('meaning', word.meaning);
+      setValue('example', word.example || '');
+    }
+  }, [word]);
+
+  React.useEffect(() => {
+    return () => {
+      removeWord();
+    };
+  }, []);
 
   return (
     <>

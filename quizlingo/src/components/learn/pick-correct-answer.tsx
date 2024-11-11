@@ -34,17 +34,16 @@ export const PickCorrectAnswer: React.FC<PickCorrectAnswerProps> = ({
 
   const shuffledOptions = useMemo(
     () => shuffleArray([...options, answer]),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [],
+    [answer],
   );
 
   useEffect(() => {
     setSelectedOption(null);
-  }, [updateKey, question]);
+  }, [updateKey]);
 
   return (
     <View className="text-center">
-      <Text className="mb-8 text-center text-lg font-semibold capitalize">
+      <Text className="mb-8 text-center text-lg font-semibold">
         {question}
       </Text>
       <View className="mx-auto grid max-w-lg grid-cols-2 gap-4">
@@ -52,17 +51,9 @@ export const PickCorrectAnswer: React.FC<PickCorrectAnswerProps> = ({
           <Option
             text={option}
             isSelected={option === selectedOption}
-            // isDisabled={!!selectedOption}
             isIncorrect={option === selectedOption && option !== answer}
             key={index}
             onPress={() => handleOptionClick(option)}
-            // className={`${
-            //   selectedOption === option
-            //     ? option === answer
-            //       ? 'bg-green-500'
-            //       : 'bg-red-500'
-            //     : ''
-            // }`}
           >
             {option}
           </Option>
