@@ -78,6 +78,11 @@ export const MatchWords: React.FC<MatchWordsProps> = ({
     }
   };
 
+  const flexDirection = useMemo(
+    () => (Math.random() > 0.5 ? 'row' : 'row-reverse'),
+    [randomWords],
+  );
+
   useEffect(() => {
     setMatchedPairs([]);
     setSelectedVietnamese(null);
@@ -87,7 +92,7 @@ export const MatchWords: React.FC<MatchWordsProps> = ({
 
   return (
     <View className="text-center">
-      <View className="mt-4 grid grid-cols-2 gap-4">
+      <View className="mt-4 flex flex-row justify-center gap-4" style={{ flexDirection }}>
         <View className="flex flex-col gap-4">
           {englishWords.map((word, index) => {
             const isMatched = matchedPairs.includes(word);

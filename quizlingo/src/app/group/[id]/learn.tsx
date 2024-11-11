@@ -21,10 +21,10 @@ import { Pressable, ProgressBar, Text, View } from '@/ui';
 function getRandomType() {
   // Mảng chứa các chuỗi và tỉ lệ của chúng
   const stringsWithWeights = [
-    { string: QuestionType.EN_TO_VN, weight: 0.2 },
-    { string: QuestionType.VN_TO_EN, weight: 0.2 },
-    { string: QuestionType.MATCH, weight: 0.2 },
-    { string: QuestionType.FILL_BLANK, weight: 0.2 },
+    { string: QuestionType.EN_TO_VN, weight: 0.25 },
+    { string: QuestionType.VN_TO_EN, weight: 0.25 },
+    { string: QuestionType.MATCH, weight: 0.25 },
+    { string: QuestionType.FILL_BLANK, weight: 0.25 },
   ];
 
   // Tính tổng trọng số
@@ -74,7 +74,7 @@ export default function AddPost() {
   }, [groupId]);
 
   useEffect(() => {
-    const totalQuestions = words.length;
+    const totalQuestions = Math.min(words.length * 2, 20);
     const q: IQuestion[] = [];
     const wordsWithExample = words.filter(
       (word) =>
@@ -182,7 +182,7 @@ export default function AddPost() {
 
   const renderQuestion = React.useCallback(() => {
     const currentQuestion = questions[currentQuestionIndex];
-    console.log('currentQuestion', currentQuestion);
+    console.log('currentQuestion', currentQuestion, questions);
 
     if (!currentQuestion && isCompleted) return <Done analysis={analysis} />;
 
@@ -209,7 +209,7 @@ export default function AddPost() {
                 .map((word) => word.meaning)
                 .filter((option) => option !== currentQuestion.word?.meaning),
             ).slice(0, 3)}
-            updateKey={currentQuestion.timestamp}
+            updateKey={currentQuestion.timestamp || currentQuestion.type}
             handleAnswer={handleAnswer}
             onPick={() => textToSpeech(currentQuestion.word?.word as string)}
           />
@@ -225,7 +225,7 @@ export default function AddPost() {
                 .map((word) => word.word)
                 .filter((option) => option !== currentQuestion.word?.word),
             ).slice(0, 3)}
-            updateKey={currentQuestion.timestamp}
+            updateKey={currentQuestion.timestamp || currentQuestion.type}
             handleAnswer={handleAnswer}
             onPick={(option: string) => textToSpeech(option)}
           />
@@ -236,13 +236,14 @@ export default function AddPost() {
           <PickCorrectAnswer
             question={(currentQuestion.word?.example as string)
               .split(' ')
-              .map((word) => {
-                if (word.includes(currentQuestion.word?.word as string)) {
-                  return (currentQuestion.word?.word as string).length > 10
+              .map((exampleWord) => {
+                const question = (currentQuestion.word?.word as string)?.toLowerCase()
+                if (exampleWord.toLowerCase().includes(question)) {
+                  return (question).length > 10
                     ? '_______'
-                    : new Array(word.length).fill('_').join('');
+                    : new Array(exampleWord.length).fill('_').join('');
                 }
-                return word;
+                return exampleWord;
               })
               .join(' ')}
             answer={currentQuestion.word?.word as string}
@@ -251,7 +252,7 @@ export default function AddPost() {
                 .map((word) => word.word)
                 .filter((option) => option !== currentQuestion.word?.word),
             ).slice(0, 3)}
-            updateKey={currentQuestion.timestamp}
+            updateKey={currentQuestion.timestamp || currentQuestion.type}
             handleAnswer={handleAnswer}
             onPick={(option: string) => textToSpeech(option)}
           />
