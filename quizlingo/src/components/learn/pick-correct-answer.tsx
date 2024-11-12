@@ -46,7 +46,8 @@ export const PickCorrectAnswer: React.FC<PickCorrectAnswerProps> = ({
       <Text className="mb-8 text-center text-lg font-semibold">
         {question}
       </Text>
-      <View className="mx-auto grid max-w-lg grid-cols-2 gap-4">
+
+      <View className="mx-auto grid grid-cols-2 gap-4">
         {shuffledOptions.map((option, index) => (
           <Option
             text={option}

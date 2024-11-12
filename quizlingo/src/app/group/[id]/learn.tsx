@@ -68,7 +68,7 @@ export default function AddPost() {
   const { id: groupId } = useLocalSearchParams<{ id: string }>();
 
   useEffect(() => {
-    httpClient.get('/words', { params: { group_id: groupId } }).then((res) => {
+    httpClient.get('/words', { params: { group_id: groupId, random: true, limit: 20 } }).then((res) => {
       setWords(res.data.words);
     });
   }, [groupId]);
@@ -317,7 +317,7 @@ export default function AddPost() {
           </>
         )}
 
-        <View className="flex w-full max-w-xl flex-1 flex-col justify-center gap-3">
+        <View className="flex w-full max-w-2xl flex-1 flex-col justify-center gap-3">
           <Text className="text-red-500">
             {isDoingIncorrectWords &&
               !isCompleted &&

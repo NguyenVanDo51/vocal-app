@@ -22,12 +22,24 @@ export const createSelectors = <S extends UseBoundStore<StoreApi<object>>>(
   return store;
 };
 
-export const shuffleArray = (array: any[]) => {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
+export const shuffleArray = (originArray: any[]) => {
+  const array = [...originArray]
+
+  let currentIndex = array.length;
+
+  // While there remain elements to shuffle...
+  while (currentIndex != 0) {
+
+    // Pick a remaining element...
+    let randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
   }
-  return array;
+
+  return array
 }
 
 export const textToSpeech = (text: string) => {

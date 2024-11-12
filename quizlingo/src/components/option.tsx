@@ -1,3 +1,4 @@
+import { isMobile } from '@/core/constant/dimenssions';
 import { SCREEN_WIDTH } from '@gorhom/bottom-sheet';
 import React, { type FC, type ReactNode } from 'react';
 import { type PressableProps } from 'react-native';
@@ -43,10 +44,13 @@ export const Option: FC<IProps> = React.memo(
       }
     }
 
+    if (isMobile) {
+      p.width = SCREEN_WIDTH * 0.4
+    }
+
     return (
       <ThemedButton
         name="bruce"
-        width={SCREEN_WIDTH * 0.4}
         height={70}
         raiseLevel={3}
         type="secondary"
