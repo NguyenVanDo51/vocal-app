@@ -8,7 +8,7 @@ const path = require("path");
 const { getWordInfo } = require("./gemini");
 
 router.get("/words", authenticateJWT, async (req, res) => {
-  const { group_id, limit = 50, offset = 0 } = req.query;
+  const { group_id, limit = 100, offset = 0, random } = req.query;
 
   try {
     let query = "SELECT * FROM words";
@@ -20,8 +20,14 @@ router.get("/words", authenticateJWT, async (req, res) => {
       queryParams.push(group_id);
     }
 
+    if (random) {
+      query += " ORDER BY RANDOM()"
+    } else {
+      query += " ORDER BY id DESC";
+    }
+
     // Thêm phân trang với limit và offset
-    query += " ORDER BY id DESC LIMIT $2 OFFSET $3";
+    query += " LIMIT $2 OFFSET $3";
     queryParams.push(Number(limit), Number(offset));
 
     const result = await db.query(query, queryParams);

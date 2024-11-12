@@ -7,6 +7,7 @@ import { shuffleArray, textToSpeech } from '@/core';
 
 import { Option } from '../option';
 import { type IQuestion } from './type';
+import { IWord } from '@/api/words/type';
 
 type MatchWordsProps = {
   question: IQuestion;
@@ -21,61 +22,26 @@ export const MatchWords: React.FC<MatchWordsProps> = ({
   const { shouldShowAudio } = question;
 
   const vietnameseWords = useMemo(
-    () => shuffleArray(randomWords.map((word) => word.meaning)),
+    () => shuffleArray(randomWords),
     [randomWords],
   );
 
-  const englishWords = useMemo(
-    () => shuffleArray(randomWords.map((word) => word.word)),
-    [randomWords],
-  );
+  const englishWords = useMemo(() => shuffleArray(randomWords), [randomWords]);
 
-  const [selectedVietnamese, setSelectedVietnamese] = useState<string | null>(
+  const [selectedVietnamese, setSelectedVietnamese] = useState<number | null>(
     null,
   );
-  const [selectedEnglish, setSelectedEnglish] = useState<string | null>(null);
-  const [matchedPairs, setMatchedPairs] = useState<string[]>([]);
-  const [incorrectPair, setIncorrectPair] = useState<{
-    vietnamese: string;
-    english: string;
-  } | null>(null);
+  const [selectedEnglish, setSelectedEnglish] = useState<number | null>(null);
+  const [matchedIds, setMatchedIds] = useState<number[]>([]);
 
-  const handleMatch = (vietnamese: string, english: string) => {
-    const word = randomWords.find(
-      (w) => w.meaning === vietnamese && w.word === english,
-    );
-    if (word) {
-      setMatchedPairs([...matchedPairs, word.word]);
-      setSelectedVietnamese(null);
-      setSelectedEnglish(null);
-      setIncorrectPair(null);
-
-      if (matchedPairs.length + 1 === randomWords.length) {
-        handleAnswer(true);
-      }
-    } else {
-      setIncorrectPair({ vietnamese, english });
-      setTimeout(() => {
-        setIncorrectPair(null);
-        setSelectedVietnamese(null);
-        setSelectedEnglish(null);
-      }, 1000);
-    }
+  const handleVietnameseClick = (word: IWord) => {
+    setSelectedVietnamese(word.id);
   };
 
-  const handleVietnameseClick = (meaning: string) => {
-    setSelectedVietnamese(meaning);
-    if (selectedEnglish) {
-      handleMatch(meaning, selectedEnglish);
-    }
-  };
-
-  const handleEnglishClick = (word: string) => {
-    setSelectedEnglish(word);
-    textToSpeech(word);
-    if (selectedVietnamese) {
-      handleMatch(selectedVietnamese, word);
-    }
+  const handleEnglishClick = (word: IWord) => {
+    console.log('word', word);
+    setSelectedEnglish(word.id);
+    textToSpeech(word.word);
   };
 
   const flexDirection = useMemo(
@@ -84,20 +50,51 @@ export const MatchWords: React.FC<MatchWordsProps> = ({
   );
 
   useEffect(() => {
-    setMatchedPairs([]);
+    setMatchedIds([]);
     setSelectedVietnamese(null);
     setSelectedEnglish(null);
-    setIncorrectPair(null);
   }, [question]);
+
+  useEffect(() => {
+    if (!!selectedEnglish && !!selectedVietnamese) {
+      if (selectedEnglish === selectedVietnamese) {
+        const word = randomWords.find((w) => w.id === selectedEnglish);
+
+        if (word) {
+          setMatchedIds([...matchedIds, word.id]);
+          setSelectedVietnamese(null);
+          setSelectedEnglish(null);
+
+          if (matchedIds.length + 1 === randomWords.length) {
+            handleAnswer(true);
+          }
+        }
+      } else {
+        setTimeout(() => {
+          setSelectedVietnamese(null);
+          setSelectedEnglish(null);
+        }, 1000);
+      }
+    }
+  }, [selectedEnglish, selectedVietnamese]);
+
+  const isIncorrectCurrent =
+    !!selectedEnglish &&
+    !!selectedVietnamese &&
+    selectedEnglish !== selectedVietnamese;
 
   return (
     <View className="text-center">
-      <View className="mt-4 flex flex-row justify-center gap-4" style={{ flexDirection }}>
+      <View
+        className="mt-4 flex flex-row justify-center gap-4"
+        style={{ flexDirection }}
+      >
         <View className="flex flex-col gap-4">
-          {englishWords.map((word, index) => {
-            const isMatched = matchedPairs.includes(word);
-            const isSelected = selectedEnglish === word;
-            const isIncorrect = isSelected && incorrectPair?.english === word;
+          {englishWords.map((w, index) => {
+            const { id, word } = w;
+            const isMatched = matchedIds.includes(id);
+            const isSelected = selectedEnglish === id;
+            const isIncorrect = isSelected && isIncorrectCurrent;
 
             return (
               <Option
@@ -106,7 +103,7 @@ export const MatchWords: React.FC<MatchWordsProps> = ({
                 isSelected={isSelected}
                 isDisabled={isMatched}
                 isIncorrect={isIncorrect}
-                onPress={() => handleEnglishClick(word)}
+                onPress={() => handleEnglishClick(w)}
               >
                 {shouldShowAudio ? <Volume2 size={20} /> : word}
               </Option>
@@ -115,13 +112,11 @@ export const MatchWords: React.FC<MatchWordsProps> = ({
         </View>
 
         <View className="flex flex-col gap-4">
-          {vietnameseWords.map((meaning, index) => {
-            const isMatched = matchedPairs.includes(
-              randomWords.find((w) => w.meaning === meaning)?.word || '',
-            );
-            const isSelected = selectedVietnamese === meaning;
-            const isIncorrect =
-              isSelected && incorrectPair?.vietnamese === meaning;
+          {vietnameseWords.map((w, index) => {
+            const { id, meaning } = w;
+            const isMatched = matchedIds.includes(id);
+            const isSelected = selectedVietnamese === id;
+            const isIncorrect = isSelected && isIncorrectCurrent;
 
             return (
               <Option
@@ -130,7 +125,7 @@ export const MatchWords: React.FC<MatchWordsProps> = ({
                 isSelected={isSelected}
                 isIncorrect={isIncorrect}
                 isDisabled={isMatched}
-                onPress={() => handleVietnameseClick(meaning)}
+                onPress={() => handleVietnameseClick(w)}
               ></Option>
             );
           })}
@@ -138,7 +133,7 @@ export const MatchWords: React.FC<MatchWordsProps> = ({
       </View>
 
       <View className="mt-4 h-8">
-        {incorrectPair && (
+        {isIncorrectCurrent && (
           <Text className="animate-pulse font-semibold text-red-600">
             Cặp từ sai rồi! Thử lại nhé!
           </Text>
