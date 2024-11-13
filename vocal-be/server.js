@@ -7,6 +7,7 @@ const userRoutes = require('./modules/user/userRoutes')
 const groupRoutes = require('./modules/groups/groupRoutes')
 const wordRoutes = require('./modules/words/wordRoutes')
 const authRoutes = require('./modules/auth/authRoutes')
+const categoryRoutes = require('./modules/categories/categoryRoutes')
 const authenticateJWT = require('./modules/auth/authMiddleware')
 
 const app = express()
@@ -28,6 +29,7 @@ app.use('/api', collectionRoutes)
 app.use('/api', userRoutes)
 app.use('/api', groupRoutes)
 app.use('/api', wordRoutes)
+app.use('/api', categoryRoutes)
 
 app.get('/', (req, res) => {
   res.json({ greeting: 'Hello world1' })
