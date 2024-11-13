@@ -7,9 +7,17 @@ import { z } from 'zod';
 
 import { queryClient } from '@/api';
 import { useCreateGroup } from '@/api/groups/useCreateGroup';
-import { Button, ControlledInput, showErrorMessage, View } from '@/ui';
+import {
+  Button,
+  ControlledInput,
+  ControlledSelect,
+  showErrorMessage,
+  View,
+} from '@/ui';
+import { useCategories } from '@/api/categories/useCategories';
 
 const schema = z.object({
+  category_id: z.number().optional(),
   name: z.string().min(5),
   description: z.string().max(100),
 });
@@ -21,6 +29,7 @@ export default function AddPost() {
   const { control, handleSubmit } = useForm<FormType>({
     resolver: zodResolver(schema),
   });
+  const { data: categories } = useCategories();
 
   const { mutate: createGroup, isPending } = useCreateGroup();
 
@@ -53,24 +62,26 @@ export default function AddPost() {
         }}
       />
       <View className="flex-1 p-4 ">
-        <ControlledInput
-          name="name"
-          label="Name"
+        <ControlledSelect
+          name="category_id"
+          label="Category"
           control={control}
-          testID="title"
-        />
+          options={categories?.map((c) => ({ value: c.id, label: c.name }))}
+        ></ControlledSelect>
+
+        <ControlledInput name="name" label="Name" control={control} />
+
         <ControlledInput
           name="description"
           label="Description"
           control={control}
           multiline
-          testID="body-input"
         />
+
         <Button
           label="Create"
           loading={isPending}
           onPress={handleSubmit(onSubmit)}
-          testID="add-post-button"
         />
       </View>
     </>
