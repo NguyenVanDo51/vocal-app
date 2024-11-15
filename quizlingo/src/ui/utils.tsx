@@ -3,6 +3,8 @@ import { Dimensions, Platform } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
 
 export const IS_IOS = Platform.OS === 'ios';
+export const US_ANDROID = Platform.OS === 'android';
+export const IS_WEB = Platform.OS === 'web';
 const { width, height } = Dimensions.get('screen');
 
 export const WIDTH = width;

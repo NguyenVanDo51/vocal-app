@@ -7,7 +7,7 @@ export interface SelectProps {
     disabled?: boolean;
     error?: string;
     options?: OptionType[];
-    onSelect?: (value: string | number) => void;
+    onSelect?: (value: string | undefined) => void;
     placeholder?: string;
     testID?: string;
   }

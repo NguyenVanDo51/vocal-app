@@ -5,7 +5,8 @@ import { useController } from 'react-hook-form';
 
 
 import type { InputControllerType } from './input';
-import { Select, SelectProps } from './selectInput';
+import { Select } from './selectInput';
+import { SelectProps } from './selectInput/type';
 
 interface ControlledSelectProps<T extends FieldValues>
   extends SelectProps,
