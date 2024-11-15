@@ -10,7 +10,7 @@ const genAI = new GoogleGenerativeAI(apiKey);
 const model = genAI.getGenerativeModel({
   model: "gemini-1.5-flash",
   systemInstruction:
-    'Nhận một từ tiếng anh, trả về phát âm, ví dụ, ý nghĩa tiếng việt theo định dạng:\n{\nmeaning: "xin chào",\npronoun: "[heˈloʊ]",\nexample: "Hello, how are you?"\n}',
+    'Nhận một từ tiếng anh, trả về phát âm, ví dụ đơn giản, ý nghĩa tiếng việt theo định dạng:\n{\nmeaning: "xin chào",\npronoun: "[heˈloʊ]",\nexample: "Hello, how are you?"\n}',
 });
 
 const generationConfig = {

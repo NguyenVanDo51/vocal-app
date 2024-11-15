@@ -17,6 +17,7 @@ import { loadSelectedTheme } from '@/core';
 import { useThemeConfig } from '@/core/use-theme-config';
 export { ErrorBoundary } from 'expo-router';
 import { PaperProvider } from 'react-native-paper';
+import MainLayout from '@/components/main-layout/index';
 
 export const unstable_settings = {
   initialRouteName: '(app)',
@@ -64,11 +65,13 @@ export default function RootLayout() {
     },
   };
 
+
   return (
     <ClerkProvider tokenCache={tokenCache} publishableKey={publishableKey}>
       <ClerkLoaded>
         <Providers>
           <PaperProvider>
+            <MainLayout>
             <Stack>
               <Stack.Screen name="(app)" options={{ headerShown: false }} />
               <Stack.Screen
@@ -77,6 +80,7 @@ export default function RootLayout() {
               />
               <Stack.Screen name="login" options={{ headerShown: false }} />
             </Stack>
+            </MainLayout>
           </PaperProvider>
         </Providers>
       </ClerkLoaded>

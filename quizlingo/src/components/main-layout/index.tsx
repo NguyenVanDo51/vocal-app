@@ -1,5 +1,3 @@
-import { View } from "react-native";
-
-export default function Page(){
-    return <View></View>
+export default function MainLayout({children}: any){
+    return children
 }

@@ -1,23 +1,21 @@
-CREATE TABLE categories (
+CREATE TABLE default_categories (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     image VARCHAR(255) NOT NULL
 );
 
-alter table categories
-drop COLUMN image
+CREATE TABLE default_words (
+    id SERIAL PRIMARY KEY,
+    en VARCHAR(255) NOT NULL,
+    category_id INTEGER REFERENCES default_categories(id) ON DELETE CASCADE
+)
 
-alter table categories
-add COLUMN image varchar
+CREATE TABLE default_translations (
+    id SERIAL PRIMARY KEY,
+    language_symbol VARCHAR(255) NOT NULL,
+    proununciation VARCHAR(255) NOT NULL,
+    translation VARCHAR(255) NOT NULL,
+    example VARCHAR,
 
-ALTER TABLE groups
-ADD COLUMN category_id INT,
-ADD FOREIGN KEY (category_id) REFERENCES categories(id) 
-
-select groups.* from groups LEFT JOIN groups_collections on groups.id = groups_collections.group_id;
-
-insert into categories (name) VALUES ('IT');
-
-insert into categories (name) VALUES ('May mặc');
-
-insert into categories (name) VALUES ('Kinh tế');
+    word_id INTEGER REFERENCES default_words(id) ON DELETE CASCADE
+)
